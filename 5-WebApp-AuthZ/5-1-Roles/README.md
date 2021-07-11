@@ -14,7 +14,7 @@ products:
   - azure-active-directory  
   - dotnet
   - office-ms-graph
-description: "Add authorization using app roles & roles claims to an ASP.NET Core web app thats signs-in users with the Microsoft identity platform"
+description: "Add authorization using app roles & roles claims to an ASP.NET Core web app that signs-in users with the Microsoft identity platform"
 ---
 # Add authorization using **app roles** & **roles** claims to an ASP.NET Core web app thats signs-in users with the Microsoft identity platform
 
@@ -26,7 +26,7 @@ description: "Add authorization using app roles & roles claims to an ASP.NET Cor
 
 This sample shows how a .NET Core MVC Web app that uses [OpenID Connect](https://docs.microsoft.com/azure/active-directory/develop/v1-protocols-openid-connect-code) to sign in users and use Azure AD Application Roles (app roles) for authorization. App roles, along with Security groups are popular means to implement authorization.
 
-This application implements RBAC using Azure AD's Application Roles & Role Claims feature. Another approach is to use Azure AD Groups and Group Claims, as shown in [WebApp-GroupClaims](../../5-WebApp-AuthZ/5-2-Groups/Readme.md). Azure AD Groups and Application Roles are by no means mutually exclusive; they can be used in tandem to provide even finer grained access control.
+This application implements RBAC using Azure AD's Application Roles & Role Claims feature. Another approach is to use Azure AD Groups and Group Claims, as shown in [WebApp-GroupClaims](../../5-WebApp-AuthZ/5-2-Groups/README.md). Azure AD Groups and Application Roles are by no means mutually exclusive; they can be used in tandem to provide even finer grained access control.
 
 Using RBAC with Application Roles and Role Claims, developers can securely enforce authorization policies with minimal effort on their part.
 
@@ -81,7 +81,7 @@ or download and extract the repository .zip file.
 
 There is one project in this sample. To register it, you can:
 
-- either follow the steps [Step 2: Register the sample with your Azure Active Directory tenant](#step-2-register-the-sample-with-your-azure-active-directory-tenant) and [Step 3:  Configure the sample to use your Azure AD tenant](#choose-the-azure-ad-tenant-where-you-want-to-create-your-applications)
+- either follow the steps [Step 2: Register the sample with your Azure Active Directory tenant](#step-2--register-the-sample-application-with-your-azure-active-directory-tenant) and [Step 3:  Configure the sample to use your Azure AD tenant](#configure-the--webapp-app-webapp-rolesclaims-to-use-your-app-registration)
 - or use PowerShell scripts that:
   - **automatically** creates the Azure AD applications and related objects (passwords, permissions, dependencies) for you. Note that this works for Visual Studio only.
   - modify the Visual Studio projects' configuration files.
@@ -226,6 +226,8 @@ Open the project in your IDE (like Visual Studio) to configure the code.
 When you click on the page that fetches the signed-in user's roles and group assignments, the sample will attempt to obtain consent from you for the **Directory.Read.All** permission using [incremental consent](https://docs.microsoft.com/azure/active-directory/develop/azure-ad-endpoint-comparison#incremental-and-dynamic-consent).
 
 > Did the sample not work for you as expected? Did you encounter issues trying this sample? Then please reach out to us using the [GitHub Issues](../../../../issues) page.
+
+> [Consider taking a moment to share your experience with us.](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRz0h_jLR5HNJlvkZAewyoWxUNEFCQ0FSMFlPQTJURkJZMTRZWVJRNkdRMC4u)
 
 ### Support in ASP.NET Core middleware libraries
 

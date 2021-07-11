@@ -105,6 +105,8 @@ If your web site needs to be accessed from users using iOS 12, you probably want
 
 > Did the sample not work for you as expected? Did you encounter issues trying this sample? Then please reach out to us using the [GitHub Issues](../../../../issues) page.
 
+> [Consider taking a moment to share your experience with us.](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRz0h_jLR5HNJlvkZAewyoWxUNEFCQ0FSMFlPQTJURkJZMTRZWVJRNkdRMC4u)
+
 ## About The code
 
 #### Where is MSAL?
@@ -113,7 +115,7 @@ This sample does NOT use MSAL as it only signs-in users (it does not call a Web 
 #### Where is the Account controller?
 The `AccountController.cs` used in this sample is part of `Microsoft.Identity.Web.UI` NuGet package, and you can find its implementation [here](https://github.com/AzureAD/microsoft-identity-web/blob/master/src/Microsoft.Identity.Web.UI/Areas/MicrosoftIdentity/Controllers/AccountController.cs). If you want to customize the **Sign-in**, **Sign-up** or **Sign-out** actions, you are encouraged to create your own controller.
 
-#### B2C middlerware
+#### B2C middleware
 This sample shows how to use the OpenID Connect ASP.NET Core middleware to sign in users from a single Azure AD B2C tenant. The middleware is initialized in the `Startup.cs` file by passing the default authentication scheme and `OpenIdConnectOptions.cs` options. The options are read from the `appsettings.json` file. The middleware takes care of:
 
 - Requesting OpenID Connect sign-in using the policy from the `appsettings.json` file.
@@ -137,7 +139,7 @@ Important things to notice:
 
 Learn how to:
 
-- Enable your [Web App to call a Web API on behalf of the signed-in user](../../2-WebApp-graph-user)
+- Enable your [Web App to call a Web API on behalf of the signed-in user](../../2-WebApp-graph-user/README-incremental-instructions.md)
 
 ## Learn more
 

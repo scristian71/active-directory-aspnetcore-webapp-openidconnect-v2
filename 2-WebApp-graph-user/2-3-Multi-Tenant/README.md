@@ -94,7 +94,7 @@ cd "2-WebApp-graph-user\2-3-Multi-Tenant"
 
 or download and extract the repository .zip file.
 
-> Given that the name of the sample is quiet long, and so are the names of the referenced NuGet packages, you might want to clone it in a folder close to the root of your hard drive, to avoid file size limitations on Windows.
+> Given that the name of the sample is quiet long, and so are the names of the referenced NuGet packages, you might want to clone it in a folder close to the root of your hard drive, to avoid path length limitations on Windows.
 
 ### Step 2:  Register the sample application with your Azure Active Directory tenant
 
@@ -213,6 +213,10 @@ Users from one tenant can't see the **ToDo** items of users from other tenants. 
 The list of users will be presented in the **Assigned To** dropdown:
 
 ![todo Edit](ReadmeFiles/todo-edit.png)
+
+> Did the sample not work for you as expected? Did you encounter issues trying this sample? Then please reach out to us using the [GitHub Issues](../../../../issues) page.
+
+> [Consider taking a moment to share your experience with us.](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRz0h_jLR5HNJlvkZAewyoWxUNEFCQ0FSMFlPQTJURkJZMTRZWVJRNkdRMC4u)
 
 ## About The code
 

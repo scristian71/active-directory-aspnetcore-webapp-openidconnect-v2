@@ -13,6 +13,7 @@ This tutorial has one WebApp and some chapters have a Web API project. To deploy
 1. Thereafter select the `Subscription`, `Resource Group`, `App service plan and Location`. `OS` will be **Windows** and `Publish` will be **Code**.
 1. Click `Create` and wait for the App Service to be created.
 1. Once you get the `Deployment succeeded` notification, then click on `Go to resource` to navigate to the newly created App service.
+1. Do not activate App service authentication: your application handles everything by itself
 
 ### If your project uses **SQL Server**, please follow these steps
 
@@ -48,11 +49,37 @@ In the left-hand navigation pane, select the **Azure Active Directory** service,
 1. On the Settings tab, make sure `Enable Organizational Authentication` is NOT selected.  Click **Save**. Click on **Publish** on the main screen.
 1. Visual Studio will publish the project and automatically open a browser to the URL of the project.  If you see the default web page of the project, the publication was successful.
 
+### Case of web apps deployed to App Services as Linux containers
+
+#### What is the issue?
+
+Normally, Microsoft Identity Web computes the redirect URI automatically depending on the deployed URL.
+
+However, when you deploy web apps to App Services as Linux containers, your application will be called by App Services on an HTTP address, whereas its registered redirect URI in the app registration will be HTTPS.
+
+This means that when a user browses to the web app, they will be redirected to `login.microsoftonline.com` as expected, but with:
+
+```
+redirect_uri=http://<your app service name>.azurewebsites.net/signin-oidc
+```
+
+instead of 
+
+```
+redirect_uri=https://<your app service name>.azurewebsites.net/signin-oidc
+```
+
+#### How to fix it?
+
+In order to get the right result, the guidance from the ASP.NET Core team for working with proxies is in [Configure ASP.NET Core to work with proxy servers and load balancers](https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer). You should address the issue centrally by using `UseForwardedHeaders` to fix the request fields, like scheme.
+
+The container scenario should have been addressed by default in .NET Core 3.0. See [Forwarded Headers Middleware Updates in .NET Core 3.0 preview 6](https://devblogs.microsoft.com/aspnet/forwarded-headers-middleware-updates-in-net-core-3-0-preview-6). If there are issues with this for you, please contact the ASP .NET Core team <https://github.com/dotnet/aspnetcore>, as they will be the right team to assist with this.
+
 ## Key Vault and Managed Service Identity (MSI)
 
-Secure key management is essential to protect data in the cloud. Use [Azure Key Vault](https://azure.microsoft.com/en-ca/services/key-vault/) to encrypt keys and small secrets like passwords that use keys stored in hardware security modules (HSMs).
+Secure key management is essential to protect data in the cloud. Use [Azure Key Vault](https://azure.microsoft.com/services/key-vault/) to encrypt certicates/keys and small secrets like passwords that use keys stored in hardware security modules (HSMs). Then Microsoft.Identity.Web leverages Managed Service Identity to retrieve these certificates. For details see [https://aka.ms/ms-id-web-certificates](https://aka.ms/ms-id-web-certificates)
 
-Use [this sample](https://github.com/Azure-Samples/app-service-msi-keyvault-dotnet) as a guide on how to use Azure Key Vault from App Service with Managed Service Identity (MSI).
+If you want to retrieve passwords, instead of certificates, see the [app-service-msi-keyvault-dotnet](https://github.com/Azure-Samples/app-service-msi-keyvault-dotnet) sample as a guide on how to use Azure Key Vault from App Service with Managed Service Identity (MSI).
 
 ## MSAL token cache on distributed environments
 
@@ -133,6 +160,19 @@ services.AddDataProtection()
 .PersistKeysToFileSystem(new DirectoryInfo(@"\\server\share\directory\"));
 ```
 
+#### If you (really) want to enable App services authentication
+
+You don't need to enable app service authentication. If you do, depending on whether you enable or not App service authentication, the redirect URI will be different:
+
+ Scenario |  Redirect URI
+-----------   | -----------  
+Run on your developer box with IIS |  ` https://localhost:44321/signin-oidc`
+Run on your developer box with Kestrel profile |  ` https://localhost:5001/signin-oidc`
+Deployed to app service without app service authentication | `https://appServiceBaseUri/signin-oidc`
+Deployed to app service **with** app service authentication | `https://appServiceBaseUri/.auth/login/aad/callback`
+
+Therefore depending on the scenarios you want to run, you should add the corresponding redirect URI to the app registration
+
 ## Community Help and Support
 
 Use [Stack Overflow](http://stackoverflow.com/questions/tagged/msal) to get support from the community.
@@ -142,6 +182,8 @@ Make sure that your questions or comments are tagged with [`azure-active-directo
 If you find a bug in the sample, please raise the issue on [GitHub Issues](../../issues).
 
 To provide a recommendation, visit the following [User Voice page](https://feedback.azure.com/forums/169401-azure-active-directory).
+
+> [Consider taking a moment to share your experience with us.](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRz0h_jLR5HNJlvkZAewyoWxUNEFCQ0FSMFlPQTJURkJZMTRZWVJRNkdRMC4u)
 
 ## More information
 

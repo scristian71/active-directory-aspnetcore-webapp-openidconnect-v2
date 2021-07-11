@@ -50,17 +50,19 @@ For the Azure Storage preparation see [Authenticate with Azure Active Directory 
 
 If you have not already,  clone this sample from your shell or command line:
 
-  ```shell
-  git clone https://github.com/Azure-Samples/microsoft-identity-platform-aspnetcore-webapp-tutorial webapp
-  cd webapp
-  cd "3-WebApp-multi-APIs"
-  ```
+```shell
+git clone https://github.com/Azure-Samples/microsoft-identity-platform-aspnetcore-webapp-tutorial webapp
+cd webapp
+cd "3-WebApp-multi-APIs"
+```
 
-  In the `appsettings.json` file, replace, if you have not already:
+In the `appsettings.json` file, replace, if you have not already:
 
 - the `ClientID` value with the *Application ID* from the application you registered in Application Registration portal,
 - the `TenantId` by `common`, as here you chose to sign-in users with their work or school or personal account. In case you want to sign-in different audiences, refer back to the first phase of the tutorial
 - and the `ClientSecret` by the client secret you generated in Step 1.
+
+In the `HomeController.cs` file, replace the blob container `Uri` (line 77) with the `Uri` of a blob container in your storage account. Also make sure that your user has enough permissions to create blobs in this container (see comment above).
 
 ### Step 3: Run the sample
 
@@ -69,6 +71,10 @@ If you have not already,  clone this sample from your shell or command line:
 2. Open your web browser and make a request to the app. The app immediately attempts to authenticate you via the Microsoft identity platform endpoint. Sign in with your personal account or with a work or school account.
 
 3. Go to the Contacts page, you should now see all kind of information about yourself (a call was made to the Microsoft Graph *me* endpoint)
+
+> Did the sample not work for you as expected? Did you encounter issues trying this sample? Then please reach out to us using the [GitHub Issues](../../../../issues) page.
+
+> [Consider taking a moment to share your experience with us.](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRz0h_jLR5HNJlvkZAewyoWxUNEFCQ0FSMFlPQTJURkJZMTRZWVJRNkdRMC4u)
 
 ## About The code
 

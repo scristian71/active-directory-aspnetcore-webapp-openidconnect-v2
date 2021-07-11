@@ -62,7 +62,7 @@ description: "Protect a multi-tenant SaaS web application and a Web API which ca
 
 ## About this sample
 
-This sample demonstrates how to secure a **multi-tenant** ASP.NET Core MVC web application (TodoListClient) which calls another protected **multi-tenant** ASP.NET Core Web API (ToDoListService) with the Microsoft Identity Platform. This sample builds on the concepts introduced in the [Build a multi-tenant SaaS web application that calls Microsoft Graph using Azure AD & OpenID Connect](../../../2-WebApp-graph-user\2-3-Multi-Tenant/README.md) sample. We advise you go through that sample once before trying this sample.  
+This sample demonstrates how to secure a **multi-tenant** ASP.NET Core MVC web application (TodoListClient) which calls another protected **multi-tenant** ASP.NET Core Web API (ToDoListService) with the Microsoft Identity Platform. This sample builds on the concepts introduced in the [Build a multi-tenant SaaS web application that calls Microsoft Graph using Azure AD & OpenID Connect](../../2-WebApp-graph-user/2-3-Multi-Tenant) sample. We advise you go through that sample once before trying this sample.  
   
 ## Scenario
 
@@ -380,6 +380,8 @@ If you get errors during admin consent, consider deleting the  **service princip
 1. The `To-Do List` screen also displays tasks that are assigned to and created by signed-in user. The user can edit and delete the created tasks but can only view the assigned tasks.
 
 > Did the sample not work for you as expected? Did you encounter issues trying this sample? Then please reach out to us using the [GitHub Issues](../../../../issues) page.
+
+> [Consider taking a moment to share your experience with us.](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRz0h_jLR5HNJlvkZAewyoWxUNEFCQ0FSMFlPQTJURkJZMTRZWVJRNkdRMC4u)
 
 ## About the code
 

@@ -209,6 +209,8 @@ If your web site needs to be accessed from users using iOS 12, you probably want
 
 > Did the sample not work for you as expected? Did you encounter issues trying this sample? Then please reach out to us using the [GitHub Issues](../../../../issues) page.
 
+> [Consider taking a moment to share your experience with us.](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRz0h_jLR5HNJlvkZAewyoWxUNEFCQ0FSMFlPQTJURkJZMTRZWVJRNkdRMC4u)
+
 ## About The code
 
 This sample shows how to use the OpenID Connect ASP.NET Core middleware to sign in users from a single Azure AD tenant. The middleware is initialized in the `Startup.cs` file by passing it the Client ID of the app, and the URL of the Azure AD tenant where the app is registered. These values are  read from the `appsettings.json` file. The middleware takes care of:
@@ -224,14 +226,17 @@ The middleware in this project is created as a part of the open-source [ASP.NET 
 These steps are encapsulated in the [Microsoft.Identity.Web](https://github.com/AzureAD/microsoft-identity-web/wiki) library.
 
 ## Next steps
+
 Learn how to:
+
 - Change your app to sign-in users from [any organization](../1-2-AnyOrg/README-1-1-to-1-2.md) or [any Microsoft accounts](../1-3-AnyOrgOrPersonal/README-1-1-to-1-3.md)
 - Enable users from [National clouds](../1-4-Sovereign) to sign-in to your application
-- enable your [Web App to call a Web API on behalf of the signed-in user](../../2-WebApp-graph-user)
+- enable your [Web App to call a Web API on behalf of the signed-in user](../../2-WebApp-graph-user/README-incremental-instructions.md)
 
 ## Learn more
 
 To understand more about token validation, see
+
 - [Validating tokens](https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet/wiki/ValidatingTokens)
 To understand more about app registration, see:
 

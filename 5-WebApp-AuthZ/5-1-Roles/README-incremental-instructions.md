@@ -14,7 +14,7 @@ products:
   - azure-active-directory  
   - dotnet
   - office-ms-graph
-description: "Add authorization using app roles & roles claims to an ASP.NET Core web app thats signs-in users with the Microsoft identity platform"
+description: "Add authorization using app roles & roles claims to an ASP.NET Core web app that signs-in users with the Microsoft identity platform"
 ---
 # Add authorization using **app roles** & **roles** claims to an ASP.NET Core web app thats signs-in users with the Microsoft identity platform
 
@@ -151,6 +151,8 @@ The content of `appRoles` should be the following (the `id` should be a unique G
 When you click on the page that fetches the signed-in user's roles and group assignments, the sample will attempt to obtain consent from you for the **Directory.Read.All** permission using [incremental consent](https://docs.microsoft.com/azure/active-directory/develop/azure-ad-endpoint-comparison#incremental-and-dynamic-consent).
 
 > Did the sample not work for you as expected? Did you encounter issues trying this sample? Then please reach out to us using the [GitHub Issues](../../../../issues) page.
+
+> [Consider taking a moment to share your experience with us.](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRz0h_jLR5HNJlvkZAewyoWxUNEFCQ0FSMFlPQTJURkJZMTRZWVJRNkdRMC4u)
 
 ### Support in ASP.NET Core middleware libraries
 

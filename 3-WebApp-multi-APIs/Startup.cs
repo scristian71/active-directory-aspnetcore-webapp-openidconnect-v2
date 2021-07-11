@@ -14,6 +14,7 @@ using WebApp_OpenIDConnect_DotNet.Services.GraphOperations;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web.UI;
 using Constants = WebApp_OpenIDConnect_DotNet.Infrastructure.Constants;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 namespace WebApp_OpenIDConnect_DotNet
 {
@@ -38,11 +39,10 @@ namespace WebApp_OpenIDConnect_DotNet
                 options.HandleSameSiteCookieCompatibility();
             });
 
-            services.AddOptions();
-
-            services.AddMicrosoftIdentityWebAppAuthentication(Configuration)
-                    .EnableTokenAcquisitionToCallDownstreamApi( new string[] { Constants.ScopeUserRead })
-                    .AddInMemoryTokenCaches();
+            services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+                .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"))
+                .EnableTokenAcquisitionToCallDownstreamApi()
+                .AddInMemoryTokenCaches();
 
             // Add APIs
             services.AddGraphService(Configuration);

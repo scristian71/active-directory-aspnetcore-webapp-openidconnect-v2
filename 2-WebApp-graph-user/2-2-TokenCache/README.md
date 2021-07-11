@@ -171,6 +171,8 @@ Note: if you had used the automation to setup your application mentioned in [Ste
 
 > Did the sample not work for you as expected? Did you encounter issues trying this sample? Then please reach out to us using the [GitHub Issues](../../../../issues) page.
 
+> [Consider taking a moment to share your experience with us.](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRz0h_jLR5HNJlvkZAewyoWxUNEFCQ0FSMFlPQTJURkJZMTRZWVJRNkdRMC4u)
+
 ## About the code
 
 Starting from the [previous phase of the tutorial](../../2-WebApp-graph-user/2-1-Call-MSGraph), the code was incrementally updated with the following steps:
@@ -196,6 +198,12 @@ public void ConfigureServices(IServiceCollection services)
         options.ConnectionString = Configuration.GetConnectionString("TokenCacheDbConnStr");
         options.SchemaName = "dbo";
         options.TableName = "TokenCache";
+
+       // You don't want the SQL token cache to be purged before the access token has expired. Usually
+       // access tokens expire after 1 hour (but this can be changed by token lifetime policies), whereas
+       // the default sliding expiration for the distributed SQL database is 20 mins. 
+       // Use a value which is above 60 mins (or the lifetime of a token in case of longer lived tokens)
+       options.DefaultSlidingExpiration = TimeSpan.FromMinutes(90); 
     });
 ```
 

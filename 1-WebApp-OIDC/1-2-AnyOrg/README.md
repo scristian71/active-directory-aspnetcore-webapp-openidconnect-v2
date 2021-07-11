@@ -28,7 +28,7 @@ This sample shows how to build a .NET Core MVC Web app that uses OpenID Connect 
 ![Sign in with Azure AD](ReadmeFiles/sign-in.png)
 
 > This is the second chapter of the ASP.NET Core Web App tutorial. To try this sample 
-Once you understand how to sign-in users in an ASP.NET Core Web App with Open Id Connect, can learn how to enable your [Web App to call a Web API on behalf of the signed-in user](../../2-WebApp-graph-user) in a later chapter.
+Once you understand how to sign-in users in an ASP.NET Core Web App with Open Id Connect, can learn how to enable your [Web App to call a Web API on behalf of the signed-in user](../../2-WebApp-graph-user/README-incremental-instructions.md) in a later chapter.
 
 >  In addition to signing-in users from any organization, you can also sign-in users from just your own Azure Active Directory organization,or users using their  Microsoft personal accounts or social identities. For more details on all the available signIn options, refer to this [Readme.md](../README.md).
 
@@ -203,6 +203,8 @@ If your web site needs to be accessed from users using iOS 12, you probably want
 
 > Did the sample not work for you as expected? Did you encounter issues trying this sample? Then please reach out to us using the [GitHub Issues](../../../../issues) page.
 
+> [Consider taking a moment to share your experience with us.](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRz0h_jLR5HNJlvkZAewyoWxUNEFCQ0FSMFlPQTJURkJZMTRZWVJRNkdRMC4u)
+
 ## About The code
 
 This sample shows how to use the OpenID Connect ASP.NET Core middleware to sign in users from a single Azure AD tenant. The middleware is initialized in the `Startup.cs` file by passing it the Client ID of the app, and the URL of the Azure AD tenant where the app is registered. These values are  read from the `appsettings.json` file. The middleware takes care of:
@@ -245,7 +247,7 @@ An example of code for `ValidateSpecificIssuers` is the following:
                                           TokenValidationParameters validationParameters)
     {
         var validIssuers = GetAcceptedTenantIds()
-                             .Select(tid => $"https://login.microsoftonline.com/{tid}");
+                             .Select(tid => $"https://login.microsoftonline.com/{tid}/v2.0");
         if (validIssuers.Contains(issuer))
         {
             return issuer;

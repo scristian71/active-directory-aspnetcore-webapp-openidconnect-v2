@@ -2,8 +2,12 @@
 param(
     [PSCredential] $Credential,
     [Parameter(Mandatory=$False, HelpMessage='Tenant ID (This is a GUID which represents the "Directory ID" of the AzureAD tenant into which you want to create the apps')]
-    [string] $tenantId
+    [string] $tenantId,
+    [Parameter(Mandatory=$False, HelpMessage='Azure environment to use while running the script (it defaults to AzureCloud)')]
+    [string] $azureEnvironmentName
 )
+
+#Requires -Modules AzureAD -RunAsAdministrator
 
 <#
  This script creates the Azure AD applications needed for this sample and updates the configuration files
@@ -183,6 +187,11 @@ Function ConfigureApplications
    so that they are consistent with the Applications parameters
 #> 
     $commonendpoint = "common"
+    
+    if (!$azureEnvironmentName)
+    {
+        $azureEnvironmentName = "AzureCloud"
+    }
 
     # $tenantId is the Active Directory Tenant. This is a GUID which represents the "Directory ID" of the AzureAD tenant
     # into which you want to create the apps. Look it up in the Azure portal in the "Properties" of the Azure AD.
@@ -191,17 +200,17 @@ Function ConfigureApplications
     # you'll need to sign-in with creds enabling your to create apps in the tenant)
     if (!$Credential -and $TenantId)
     {
-        $creds = Connect-AzureAD -TenantId $tenantId
+        $creds = Connect-AzureAD -TenantId $tenantId -AzureEnvironmentName $azureEnvironmentName
     }
     else
     {
         if (!$TenantId)
         {
-            $creds = Connect-AzureAD -Credential $Credential
+            $creds = Connect-AzureAD -Credential $Credential -AzureEnvironmentName $azureEnvironmentName
         }
         else
         {
-            $creds = Connect-AzureAD -TenantId $tenantId -Credential $Credential
+            $creds = Connect-AzureAD -TenantId $tenantId -Credential $Credential -AzureEnvironmentName $azureEnvironmentName
         }
     }
 
@@ -209,6 +218,8 @@ Function ConfigureApplications
     {
         $tenantId = $creds.Tenant.Id
     }
+
+    
 
     $tenant = Get-AzureADTenantDetail
     $tenantName =  ($tenant.VerifiedDomains | Where { $_._Default -eq $True }).Name
@@ -222,6 +233,7 @@ Function ConfigureApplications
    $serviceAadApplication = New-AzureADApplication -DisplayName "TodoListService-aspnetcore-webapi" `
                                                    -HomePage "https://localhost:44351" `
                                                    -PublicClient $False
+
    $serviceIdentifierUri = 'api://'+$serviceAadApplication.AppId
    Set-AzureADApplication -ObjectId $serviceAadApplication.ObjectId -IdentifierUris $serviceIdentifierUri
 
@@ -240,28 +252,30 @@ Function ConfigureApplications
     # rename the user_impersonation scope if it exists to match the readme steps or add a new scope
     $scopes = New-Object System.Collections.Generic.List[Microsoft.Open.AzureAD.Model.OAuth2Permission]
    
+    # delete default scope i.e. User_impersonation
+    $scope = $serviceAadApplication.Oauth2Permissions | Where-Object { $_.Value -eq "User_impersonation" }
+    if($scope -ne $null)
+    {
+       # disable the scope
+       $scope.IsEnabled = $false
+       $scopes.Add($scope)
+       Set-AzureADApplication -ObjectId $serviceAadApplication.ObjectId -Oauth2Permissions $scopes
+
+       # clear the scope
+       $scopes.Clear()
+       Set-AzureADApplication -ObjectId $serviceAadApplication.ObjectId -Oauth2Permissions $scopes
+    }
+
     if ($scopes.Count -ge 0) 
     {
-        # add all existing scopes first
-        $serviceAadApplication.Oauth2Permissions | foreach-object { $scopes.Add($_) }
-
-        $scope = $serviceAadApplication.Oauth2Permissions | Where-Object { $_.Value -eq "User_impersonation" }
-
-        if ($scope -ne $null) 
-        {
-            $scope.Value = "access_as_user"
-        }
-        else 
-        {
-            # Add scope
-            $scope = CreateScope -value "access_as_user"  `
+             $scope = CreateScope -value access_as_user  `
                 -userConsentDisplayName "Access TodoListService-aspnetcore-webapi"  `
                 -userConsentDescription "Allow the application to access TodoListService-aspnetcore-webapi on your behalf."  `
                 -adminConsentDisplayName "Access TodoListService-aspnetcore-webapi"  `
                 -adminConsentDescription "Allows the app to have the same access to information in the directory on behalf of the signed-in user."
             
-            $scopes.Add($scope)
-        }        
+                $scopes.Add($scope)
+    
     }
      
     # add/update scopes
@@ -289,7 +303,6 @@ Function ConfigureApplications
                                                   -ReplyUrls "https://localhost:44321/", "https://localhost:44321/signin-oidc" `
                                                   -IdentifierUris "https://$tenantName/TodoListClient-aspnetcore-webapi" `
                                                   -PasswordCredentials $key `
-                                                  -Oauth2AllowImplicitFlow $true `
                                                   -PublicClient $False
 
    # create the service principal of the newly created application 
